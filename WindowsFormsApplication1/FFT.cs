@@ -161,7 +161,7 @@ namespace WindowsFormsApplication1
             mh = size;
      for (m = size; (m = mh << 1) <= size; mh = m) {
 
-         Console.WriteLine(mh);
+
         
          int mq = mh >> 1;
 
@@ -293,7 +293,8 @@ namespace WindowsFormsApplication1
                inputRe[i]= 0;
                inputIm[i]= 0;
            }
-           FFT2(inputRe, inputIm, bitSize, out outputRe, out outputIm);
+          
+           FFTmat(inputRe, inputIm, out outputRe, out outputIm, bitSize);
            for (int i = 0; i < dataSize; i++)
            {
                outputRe[i] /= (double)dataSize;

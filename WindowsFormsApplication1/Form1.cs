@@ -511,11 +511,11 @@ namespace WindowsFormsApplication1
                 {
                     if (i > 0)
                     {
-                        double y2 = reFFT[i] * imFFT[i];
+                        double y2 = tmp[i] * imFFT[i];
                         double x = reFFT[i] ;
                         double z= imFFT[i];
-                        textBox1.AppendText(z.ToString("#0.00") + Environment.NewLine);
-
+                        textBox1.AppendText(tmp[i].ToString("#0.00") + Environment.NewLine);
+                        Console.WriteLine(tmp[i]);
                     }
                 } chart5.Series.Add(series5);
             }
@@ -558,8 +558,7 @@ namespace WindowsFormsApplication1
 
 
             } chart5.Series.Add(series5);
-            Console.WriteLine(ave);
-
+         
 
             series5.ChartType = SeriesChartType.Line;
             series5.BorderWidth = 2;
@@ -819,11 +818,9 @@ namespace WindowsFormsApplication1
             int N = a1.Count;             //係数のσ
 
             double[,] table = new double[size, size];
-          
-           
-
             double[] scales = new double[size];
             double[] isignalr = new double[size];
+            double[] isignali = new double[size];
 
             double delta = 0;
 
@@ -846,27 +843,33 @@ namespace WindowsFormsApplication1
             CWT.CWTR(data, table, datasize, bitsize, out coefsR);
             CWT.ICWR(coefsR, delta, datasize, bitsize, out isignalr);
             CWT.CWTC(data, table, datasize, bitsize, out coefsIm);
-            CWT.ICWR(coefsR, delta, datasize, bitsize, out isignalr);
+            CWT.ICWTC(coefsIm, delta, datasize, bitsize, out isignali);
+            
             //周波数のループ
             double[,] result1 = new double[coefsR.GetLength(0), coefsR.GetLength(1)];
             double[,] result = new double[coefsR.GetLength(0), coefsR.GetLength(1)];
             for (int j = coefsR.GetLength(1)-1; j >0 ; --j)
             {
-
-
                 // compute the DFT of CWT coefficients at scales[j]
                 for (int k = 0; k < coefsR.GetLength(0); ++k)
                 {
                     result[k, j] = Math.Sqrt((coefsR[k, j] * coefsR[k, j]) + ((coefsIm[k, j] * coefsIm[k, j]))) / Math.Sqrt(scales[j]);
-
                     result1[k, j] = Math.Sqrt((coefsR[k, j] * coefsR[k, j] ));
                     int _fs =( coefsR.GetLength(1) -j) -1;
                     WR.Add(result[k,j]+",");
 
                 }
                 Console.WriteLine(j);
+             
+                WR.Add(Environment.NewLine);
+            }
+            for (int i = 0; i < 1000; i++)
+            {
                 textBox1.AppendText(Environment.NewLine);
                 WR.Add(Environment.NewLine);
+                double z=isignalr[i] + isignali[i];
+                textBox1.AppendText(z.ToString("#0.0000000") + ",");
+
 
             }
 

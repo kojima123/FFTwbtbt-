@@ -175,16 +175,24 @@ namespace WindowsFormsApplication1
         {
             int N = size;
             int J = _scales.Count;
+
             double[] signal = new double[N];
 
             // recover "signal"
-            for (int i = 0; i < N; ++i) { 
-                for (int j = 0; j < J; ++j)
+  
+            for (int j = 0; j < J; ++j)
+            {
+                for (int k = 0; k < N; ++k)
                 {
-                    signal[i] += (coefsIm[j, i]) / Math.Sqrt(_scales[j]);
-                    double N2 = (double)N;
-                    signal[j] = signal[j] * N2 / delta;
-                }}
+                    signal[k] += (coefsIm[k, j]) / Math.Sqrt(_scales[j]) / delta;
+
+                }
+                double N2 = (double)N;
+         
+
+            }
+
+
             _signal = signal;
             
         }
@@ -243,16 +251,13 @@ namespace WindowsFormsApplication1
             {
                 for (int k = 0; k < N; ++k)
                 {
-                    signal[k] += (coefsR[k, j]) / Math.Sqrt(_scales[j]);
-                    
-                   
-               
+                    signal[k] += (coefsR[k, j]) / Math.Sqrt(_scales[j])/delta;
+
                     }
                 double N2 = (double)N;
                
                 }
-                   
-
+            
               
             _signal = signal;
             }

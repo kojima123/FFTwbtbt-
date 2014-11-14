@@ -244,3 +244,19 @@ C:\Users\kageyamalab03\Desktop\解析　FFT 軽い wbtbt+\解析　FFT 軽い wb
 C:\Users\kageyamalab03\Desktop\解析　FFT 軽い wbtbt+\解析　FFT 軽い wbtbt+\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
 C:\Users\kageyamalab03\Desktop\解析　FFT 軽い wbtbt+\解析　FFT 軽い wbtbt+\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
 C:\Users\kageyamalab03\Desktop\解析　FFT 軽い wbtbt+\解析　FFT 軽い wbtbt+\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+C:\Users\kageyamalab03\Downloads\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.exe
+C:\Users\kageyamalab03\Downloads\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.pdb
+C:\Users\kageyamalab03\Downloads\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\Users\kageyamalab03\Downloads\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\Users\kageyamalab03\Downloads\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+C:\Users\kageyamalab03\Downloads\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\kageyamalab03\Downloads\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\kageyamalab03\Downloads\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\FFTwbtbt--e9a220c594517a7ebfd195ad38eb34a2b6f99ea7\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+C:\Users\kageyamalab03\Desktop\programs\FFTwbtbt+\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.exe
+C:\Users\kageyamalab03\Desktop\programs\FFTwbtbt+\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.pdb
+C:\Users\kageyamalab03\Desktop\programs\FFTwbtbt+\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\Users\kageyamalab03\Desktop\programs\FFTwbtbt+\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\Users\kageyamalab03\Desktop\programs\FFTwbtbt+\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+C:\Users\kageyamalab03\Desktop\programs\FFTwbtbt+\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\kageyamalab03\Desktop\programs\FFTwbtbt+\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\kageyamalab03\Desktop\programs\FFTwbtbt+\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
