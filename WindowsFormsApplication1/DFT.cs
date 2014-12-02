@@ -6,18 +6,12 @@ using System.Text;
 namespace WindowsFormsApplication1
 {
     class DFT
-    {private double[] data;
-        private int size;
-        private int bitsize;
-
-      
+    {
 
         public DFT()
         {
             // TODO: Complete member initialization
         }
-
-
 
         internal static void dft(double[] data, int size, out double[] reDFT, out double[] imDFT)
         {

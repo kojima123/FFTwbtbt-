@@ -84,9 +84,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fwtest.c" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

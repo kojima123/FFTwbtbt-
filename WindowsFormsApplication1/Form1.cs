@@ -272,6 +272,8 @@ namespace WindowsFormsApplication1
             textBox1.ResetText();
             textBox6.ResetText();
             textBox7.ResetText();
+            WR.Clear();
+            
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -408,11 +410,7 @@ namespace WindowsFormsApplication1
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
+      
         private void button2_Click(object sender, EventArgs e)
         {
             chart5.Series.Clear();
@@ -632,7 +630,7 @@ namespace WindowsFormsApplication1
         }
            
         private void button7_Click(object sender, EventArgs e)
-        {
+        {//////未完成
             int size = a1.Count;
             int k = 4;
             int J = 1;
@@ -711,7 +709,7 @@ namespace WindowsFormsApplication1
         }
 
         private void button8_Click(object sender, EventArgs e)
-        {
+        {//////未完成
 
             int size = a1.Count;
             double[] data = new double[size];
@@ -789,7 +787,6 @@ namespace WindowsFormsApplication1
             }
         }
 
-
         private void button9_Click(object sender, EventArgs e)
         {
             int size = a1.Count;
@@ -811,52 +808,48 @@ namespace WindowsFormsApplication1
 
             size = a1.Count;
             double[] data = new double[size];
-            double dj = 0.01;
-            double fmin = 0.1;                              
-            double fmax = 100;              
+            double dj = 0.01; //減衰係数
+            double fmin = 0.1; //最少周波数                             
+            double fmax = 100; //最大周波数                 
             double fs = 100.0;              //サンプリングの周波数(HZ)
-            int N = a1.Count;             //係数のσ
+            double[,] table;//周波数テーブル
+            double[] scales = new double[size];//スケール
+            double[] isignalr = new double[size];//実部信号
+            double[] isignali = new double[size];//虚部信号
+            double delta = 0;//周波数テーブル
+            double[,] coefsR; //実部変換結果データ
+            double[,] coefsIm;　//虚部変換結果データ　　　　　　
 
-            double[,] table = new double[size, size];
-            double[] scales = new double[size];
-            double[] isignalr = new double[size];
-            double[] isignali = new double[size];
-
-            double delta = 0;
-
-            //直流成分除去
+          
             double Average = a1.Average();
             for (int i = 0; i < size; i++)
             {
-                data[i] = (a1[i] - Average);
+                data[i] = (a1[i] - Average);  //直流成分除去
             }
 
             CWT CWT = new CWT();
 
 
-            CWT.setScale(fs, fmin, fmax, dj, N, out table, out delta, out scales);
-
-            double[,] coefsR = new double[size, table.GetLength(1)];            //変換結果データ
-            double[,] coefsIm = new double[size, table.GetLength(1)];
+            CWT.setScale(fs, fmin, fmax, dj, size, out table, out delta, out scales);  //周波数テーブルセット
 
 
-            CWT.CWTR(data, table, datasize, bitsize, out coefsR);
-            CWT.ICWR(coefsR, delta, datasize, bitsize, out isignalr);
-            CWT.CWTC(data, table, datasize, bitsize, out coefsIm);
-            CWT.ICWTC(coefsIm, delta, datasize, bitsize, out isignali);
+            CWT.CWTR(data, table, datasize, bitsize, out coefsR);//実部ウェーブレット
+            CWT.ICWR(coefsR, delta, datasize, bitsize, out isignalr);//実部逆ウェーブレット
+            CWT.CWTC(data, table, datasize, bitsize, out coefsIm);//虚部ウェーブレット
+            CWT.ICWTC(coefsIm, delta, datasize, bitsize, out isignali);//虚部逆ウェーブレット
             
-            //周波数のループ
-            double[,] result1 = new double[coefsR.GetLength(0), coefsR.GetLength(1)];
+           
+
             double[,] result = new double[coefsR.GetLength(0), coefsR.GetLength(1)];
             for (int j = coefsR.GetLength(1)-1; j >0 ; --j)
             {
-                // compute the DFT of CWT coefficients at scales[j]
+                //ウェーブレット結果出力
                 for (int k = 0; k < coefsR.GetLength(0); ++k)
                 {
-                    result[k, j] = Math.Sqrt((coefsR[k, j] * coefsR[k, j]) + ((coefsIm[k, j] * coefsIm[k, j]))) / Math.Sqrt(scales[j]);
-                    result1[k, j] = Math.Sqrt((coefsR[k, j] * coefsR[k, j] ));
+                    result[k, j] = Math.Sqrt((coefsR[k, j] * coefsR[k, j]) + ((coefsIm[k, j] * coefsIm[k, j]))) / Math.Sqrt(scales[j]); //データの正規化
+            
                     int _fs =( coefsR.GetLength(1) -j) -1;
-                    WR.Add(result[k,j]+",");
+                    WR.Add(result[k, j] + ","); //結果の出力
 
                 }
                 Console.WriteLine(j);
@@ -865,12 +858,10 @@ namespace WindowsFormsApplication1
             }
             for (int i = 0; i < 1000; i++)
             {
+                //逆ウェーブレット結果出力
                 textBox1.AppendText(Environment.NewLine);
-                WR.Add(Environment.NewLine);
                 double z=isignalr[i] + isignali[i];
                 textBox1.AppendText(z.ToString("#0.0000000") + ",");
-
-
             }
 
         }
@@ -961,12 +952,6 @@ namespace WindowsFormsApplication1
                 a1.Add(data[i]);
             }
 
-            for (int k = 0; k < N; ++k)
-            {
-
-
-            }
-
         }
 
         private void button16_Click(object sender, EventArgs e)
@@ -988,17 +973,10 @@ namespace WindowsFormsApplication1
             //文字コード(ここでは、Shift JIS)
             System.Text.Encoding enc = System.Text.Encoding.GetEncoding("shift_jis");
 
-
-
-
-
- 
   
        sw.WriteLine(String.Join("", WR.ToArray()));
 
-
-
-sw.Dispose();
+　　　　sw.Dispose();
 
 
         }

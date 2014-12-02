@@ -190,14 +190,8 @@
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 132);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 12);
-            this.label1.TabIndex = 28;
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+        
+
             // 
             // button2
             // 
@@ -283,11 +277,11 @@
             // 
             // button15
             // 
-            this.button15.Location = new System.Drawing.Point(497, 399);
+            this.button15.Location = new System.Drawing.Point(499, 282);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(75, 23);
             this.button15.TabIndex = 37;
-            this.button15.Text = "button15";
+            this.button15.Text = "ダミーデータ";
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
@@ -297,7 +291,7 @@
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(75, 23);
             this.button16.TabIndex = 38;
-            this.button16.Text = "button16";
+            this.button16.Text = "CSV保存";
             this.button16.UseVisualStyleBackColor = true;
             this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
