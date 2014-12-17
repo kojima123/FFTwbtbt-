@@ -28,7 +28,8 @@ namespace WindowsFormsApplication1
           
                 double[] G = new double[dataSize];
 
-                double[] windata = new double[dataSize];
+                double[] windatar = new double[dataSize];
+                double[] windatai = new double[dataSize];
                 double[] dftInIm = new double[dataSize];
                 // TODO: Complete member initialization
             
@@ -56,7 +57,7 @@ namespace WindowsFormsApplication1
                 }
 
 
-                Windowing(G, out windata);
+                Windowing(dftIn, out windatar);
                 FFTmat(dftIn, dftInIm, out reFFT, out imFFT, bitsize);
   
                 reFFT_2 = reFFT;
@@ -146,59 +147,7 @@ namespace WindowsFormsApplication1
             return reBitArray;
         }
  
-       public void ifft(double[] reDFT, double[] imDFT, int bitSize, int size ,out double[] tmp, out double[] tmpim)
-        {
-            var theta = 2 * Math.PI / size;
-
-   //scrambler
-           int i=0 ;
-           int mh,m ;
-           double wr , wi ;
-            double xr = 0;
-            double xi = 0;
-            wr = Math.Cos(theta * i);
-            wi = Math.Sin(theta * i);
-            mh = size;
-     for (m = size; (m = mh << 1) <= size; mh = m) {
-
-
-        
-         int mq = mh >> 1;
-
-        for (int jr = 0; jr < size; jr += m) {
-        
-                int kr =jr + mh;
-                xr = reDFT[jr] - reDFT[kr];
-                xi = imDFT[jr] - imDFT[kr];
-                reDFT[jr] += reDFT[kr];
-                imDFT[jr] += imDFT[kr];
-             reDFT[kr] = xr;
-             imDFT[kr] = xi;
-            }
-        for (i = 1; i < mq; i++) {
-             int kr,ir,ji,jr,ki;
-              for (int j = 0; j < size; j += m) {
-                jr = j + i;
-                ji = j + mh - i;
-                kr = j + mh + i;
-                ki = j + m - i;
-                xr = reDFT[jr] - reDFT[ji];
-                xi = imDFT[ki] + imDFT[kr];
-                reDFT[jr] = reDFT[jr] + reDFT[ji];
-                imDFT[ji] = imDFT[ki] - imDFT[kr];
-           reDFT[kr] = wr * xr + wi * xi;
-       imDFT[kr] = wr * xi - wi * xr;
-                   
-                  
-            }
-          }
-        }
-
-     tmp = reDFT;
-     tmpim = imDFT;
-            }
- 
-
+     
        /// <summary>
        /// 1次元IFFT
        /// </summary>

@@ -273,7 +273,7 @@ namespace WindowsFormsApplication1
             textBox6.ResetText();
             textBox7.ResetText();
             WR.Clear();
-            
+            a1.Clear();
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -509,10 +509,10 @@ namespace WindowsFormsApplication1
                 {
                     if (i > 0)
                     {
-                        double y2 = tmp[i] * imFFT[i];
+                        double y2 = tmp[i] ;
                         double x = reFFT[i] ;
                         double z= imFFT[i];
-                        textBox1.AppendText(tmp[i].ToString("#0.00") + Environment.NewLine);
+                        textBox1.AppendText(y2.ToString("#0.00") + Environment.NewLine);
                         Console.WriteLine(tmp[i]);
                     }
                 } chart5.Series.Add(series5);
@@ -541,7 +541,7 @@ namespace WindowsFormsApplication1
                 double m = a1[i] - ave;
                 aave[i] = m;
 
-
+                textBox1.AppendText( aave[i].ToString("#0.0000000") + ",");
 
             }
 
@@ -571,9 +571,9 @@ namespace WindowsFormsApplication1
             double[] data = new double[size];
             double pi2 = (8.0 * Math.Atan(1.0));
             double N = (size - 1);                 //データ点数                    
-            double M = 300;              //周波数の個数
+            double M = 30;              //周波数の個数
             double FS = 100.0;              //サンプリングの周波数(HZ)
-            double sigma = 1;             //係数のσ
+            double sigma = 5;             //係数のσ
             double limit = 0.01;            //ガボール減衰の最小値
             double[] result = new double[size];            //変換結果データ
             double[] result1 = new double[size];            //変換結果データ
@@ -589,7 +589,7 @@ namespace WindowsFormsApplication1
             {
                 //結果の保存
 
-                double f = 0.1 * m;   //周波数
+                double f = 0.5 * m;   //周波数
                 double a = 1.0000 / f;    //スケールのａ＝周期
                 //データ点数分までのループ
 
@@ -625,7 +625,7 @@ namespace WindowsFormsApplication1
                 } Console.WriteLine(m);
                 textBox1.AppendText(Environment.NewLine);
             }
-          
+        
 
         }
            
@@ -789,27 +789,16 @@ namespace WindowsFormsApplication1
 
         private void button9_Click(object sender, EventArgs e)
         {
-            int size = a1.Count;
-            int bitsize = 0;
-            /////  bit数の計算
-            for (int i = 0; size >= 1; ++i)
-            {
-                size = size / 2;
-                bitsize = i;
-            }
 
-            /////bit数の繰り上げ
-            int datasize = 1 << bitsize;
-            size = size / 2;
-            if (datasize < size)
-            {
-                bitsize = bitsize + 1;
-            }
-
+           
+                int size = a1.Count;
+                int bitsize = 0;
+          
+         
             size = a1.Count;
             double[] data = new double[size];
-            double dj = 0.01; //減衰係数
-            double fmin = 0.1; //最少周波数                             
+            double dj = 0.1; //減衰係数
+            double fmin = 0.001; //最少周波数                             
             double fmax = 100; //最大周波数                 
             double fs = 100.0;              //サンプリングの周波数(HZ)
             double[,] table;//周波数テーブル
@@ -819,120 +808,79 @@ namespace WindowsFormsApplication1
             double delta = 0;//周波数テーブル
             double[,] coefsR; //実部変換結果データ
             double[,] coefsIm;　//虚部変換結果データ　　　　　　
+            double fourier_factor = 0;
+            double sigma =6;
 
-          
-            double Average = a1.Average();
+
+
+            if (size > 0)
+            {
+               bitsize= Bitsize(size);
+               int datasize = 1 << bitsize;
+               Console.WriteLine(datasize);
+
             for (int i = 0; i < size; i++)
             {
+                double Average = a1.Average();
                 data[i] = (a1[i] - Average);  //直流成分除去
             }
 
             CWT CWT = new CWT();
 
 
-            CWT.setScale(fs, fmin, fmax, dj, size, out table, out delta, out scales);  //周波数テーブルセット
+            CWT.setScale(fs, fmin, fmax, dj, size,sigma, out table, out delta, out scales);  //周波数テーブルセット
 
-
+          
             CWT.CWTR(data, table, datasize, bitsize, out coefsR);//実部ウェーブレット
             CWT.ICWR(coefsR, delta, datasize, bitsize, out isignalr);//実部逆ウェーブレット
             CWT.CWTC(data, table, datasize, bitsize, out coefsIm);//虚部ウェーブレット
             CWT.ICWTC(coefsIm, delta, datasize, bitsize, out isignali);//虚部逆ウェーブレット
-            
-           
-
+ 
             double[,] result = new double[coefsR.GetLength(0), coefsR.GetLength(1)];
             for (int j = coefsR.GetLength(1)-1; j >0 ; --j)
             {
+
+                ////////周波数計算
+                  fourier_factor =(4 * Math.PI)/(sigma + Math.Sqrt(2 + sigma *sigma));
+
+                  double f = (scales[j]* fourier_factor);
+
+                  double ff = (1 / f)*fs;
+
+                  WR.Add(ff + ","); 
+
+
+
                 //ウェーブレット結果出力
                 for (int k = 0; k < coefsR.GetLength(0); ++k)
                 {
                     result[k, j] = Math.Sqrt((coefsR[k, j] * coefsR[k, j]) + ((coefsIm[k, j] * coefsIm[k, j]))) / Math.Sqrt(scales[j]); //データの正規化
-            
+              
                     int _fs =( coefsR.GetLength(1) -j) -1;
                     WR.Add(result[k, j] + ","); //結果の出力
 
                 }
-                Console.WriteLine(j);
-             
+           
                 WR.Add(Environment.NewLine);
+        
             }
-            for (int i = 0; i < 1000; i++)
+
+
+            for (int i = 0; i < datasize; i++)
             {
                 //逆ウェーブレット結果出力
-                textBox1.AppendText(Environment.NewLine);
-                double z=isignalr[i] + isignali[i];
-                textBox1.AppendText(z.ToString("#0.0000000") + ",");
+
+                double z = (isignalr[i] + isignali[i]) / 0.7784;
+
+                textBox1.AppendText(isignalr[i].ToString("#0.000000") + Environment.NewLine);
+                textBox6.AppendText(isignali[i].ToString("#0.000000") + Environment.NewLine);
+                textBox7.AppendText(z.ToString("#0.000000") + Environment.NewLine);
+            }
             }
 
         }
 
-        private void button14_Click(object sender, EventArgs e)
-        {
-            int size = a1.Count;
-            double[] data = new double[size];
-            double dj = 0.25;
-            double fmin = 1;                 //データ点数                    
-            double fmax = 40;              //周波数の個数
-            double fs = 100.0;              //サンプリングの周波数(HZ)
-            int N = a1.Count;             //係数のσ
-            //ガボール減衰の最小値
-            double[,] table = new double[size, size];
-            double[,] coefsR = new double[size, size];            //変換結果データ
-            double[] resulti = new double[size];
-            double[] tmpDFT = new double[size];
-            double[] reFFT;
-            double[] imFFT;
-            double[] tmp;
-            double[] tmpim;
-            double[] dftIn = new double[size];
-            int bitsize = 10;
-            double[] isignalr = new double[size];
-
-
-
-            //直流成分除去
-            double Average = a1.Average();
-            for (int i = 0; i < size; i++)
-            {
-                dftIn[i] = (a1[i] - Average);
-            }
-
-            CWT CWT = new CWT();
-
-            FFT t = new FFT(dftIn, size, bitsize, out reFFT, out imFFT);
-
-            for (int j = 0; j < 20; ++j)
-            {
-                // compute the DFT of CWT coefficients at scales[j]
-                for (int k = 0; k < N; ++k)
-                {
-                    tmpDFT[k] = reFFT[k] * table[j, k];
-
-                    t.IFFT(tmpDFT, imFFT, bitsize, out tmp, out tmpim);
-
-
-                    coefsR[k, j] = tmp[k];
-
-                }
-            }
-
-            for (int j = 0; j < coefsR.GetLength(1); ++j)
-            {
-
-
-                // compute the DFT of CWT coefficients at scales[j]
-                for (int k = 0; k < coefsR.GetLength(0); ++k)
-                {
-                    textBox1.AppendText(
-                    (table[k, j]).ToString("#0.0000000") + ",");
-
-                }
-                Console.WriteLine(j);
-                textBox1.AppendText(Environment.NewLine);
-
-            }
-
-        }
+   
 
         private void button15_Click(object sender, EventArgs e)
         {
@@ -946,9 +894,9 @@ namespace WindowsFormsApplication1
             {
 
 
-                data[i] = 2 * Math.Sin(4 * (2 * Math.PI / FS) * i)
-                          + 3 * Math.Cos(2 * (2 * Math.PI / FS) * i);
+                data[i] = 1 * Math.Sin(4 * (2 * Math.PI / FS) * i) + (2 * Math.Sin(30 * (2 * Math.PI / FS) * i)) + (3 * Math.Sin(1* (2 * Math.PI / FS) * i)) + (2 * Math.Sin(0.5 * (2 * Math.PI / FS) * i));
 
+               
                 a1.Add(data[i]);
             }
 
@@ -980,6 +928,33 @@ namespace WindowsFormsApplication1
 
 
         }
+        private static int Bitsize(int size)
+        {
+         
+            int bitsize = 0;
+          
+
+            /////  bit数の計算
+            for (int i = 0; size >= 1; ++i)
+            {
+                size = size / 2;
+                bitsize = i;
+            }
+
+            /////bit数の繰り上げ
+            int datasize = 1 << bitsize;
+            size = size / 2;
+            if (datasize < size)
+            {
+                bitsize = bitsize + 1;
+            }
+
+       
+
+            return bitsize;
+
+        }
+
     }
 }
         

@@ -56,7 +56,6 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
-            this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -81,7 +80,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(0, 177);
+            this.button1.Location = new System.Drawing.Point(0, 151);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -190,8 +189,12 @@
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
-        
-
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.TabIndex = 39;
             // 
             // button2
             // 
@@ -237,7 +240,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(0, 87);
+            this.button7.Location = new System.Drawing.Point(0, 58);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(106, 23);
             this.button7.TabIndex = 33;
@@ -247,7 +250,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(0, 116);
+            this.button8.Location = new System.Drawing.Point(0, 90);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(75, 23);
             this.button8.TabIndex = 34;
@@ -264,16 +267,6 @@
             this.button9.Text = "FFT　モレット";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // button14
-            // 
-            this.button14.Location = new System.Drawing.Point(0, 58);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(75, 23);
-            this.button14.TabIndex = 36;
-            this.button14.Text = "テスト";
-            this.button14.UseVisualStyleBackColor = true;
-            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // button15
             // 
@@ -302,7 +295,6 @@
             this.ClientSize = new System.Drawing.Size(617, 519);
             this.Controls.Add(this.button16);
             this.Controls.Add(this.button15);
-            this.Controls.Add(this.button14);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
@@ -357,7 +349,6 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button16;
     }
