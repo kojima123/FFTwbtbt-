@@ -790,11 +790,11 @@ namespace WindowsFormsApplication1
         private void button9_Click(object sender, EventArgs e)
         {
 
-           
-                int size = a1.Count;
-                int bitsize = 0;
-          
-         
+
+            int size = a1.Count;
+            int bitsize = 0;
+
+
             size = a1.Count;
             double[] data = new double[size];
             double dj = 0.1; //減衰係数
@@ -809,78 +809,86 @@ namespace WindowsFormsApplication1
             double[,] coefsR; //実部変換結果データ
             double[,] coefsIm;　//虚部変換結果データ　　　　　　
             double fourier_factor = 0;
-            double sigma =6;
+            double sigma = 6;
 
 
 
             if (size > 0)
             {
-               bitsize= Bitsize(size);
-               int datasize = 1 << bitsize;
-               Console.WriteLine(datasize);
+                bitsize = Bitsize(size);
+                int datasize = 1 << bitsize;
+                Console.WriteLine(datasize);
 
-            for (int i = 0; i < size; i++)
-            {
-                double Average = a1.Average();
-                data[i] = (a1[i] - Average);  //直流成分除去
-            }
-
-            CWT CWT = new CWT();
-
-
-            CWT.setScale(fs, fmin, fmax, dj, size,sigma, out table, out delta, out scales);  //周波数テーブルセット
-
-          
-            CWT.CWTR(data, table, datasize, bitsize, out coefsR);//実部ウェーブレット
-            CWT.ICWR(coefsR, delta, datasize, bitsize, out isignalr);//実部逆ウェーブレット
-            CWT.CWTC(data, table, datasize, bitsize, out coefsIm);//虚部ウェーブレット
-            CWT.ICWTC(coefsIm, delta, datasize, bitsize, out isignali);//虚部逆ウェーブレット
- 
-            double[,] result = new double[coefsR.GetLength(0), coefsR.GetLength(1)];
-            for (int j = coefsR.GetLength(1)-1; j >0 ; --j)
-            {
-
-                ////////周波数計算
-                  fourier_factor =(4 * Math.PI)/(sigma + Math.Sqrt(2 + sigma *sigma));
-
-                  double f = (scales[j]* fourier_factor);
-
-                  double ff = (1 / f)*fs;
-
-                  WR.Add(ff + ","); 
-
-
-
-                //ウェーブレット結果出力
-                for (int k = 0; k < coefsR.GetLength(0); ++k)
+                for (int i = 0; i < size; i++)
                 {
-                    result[k, j] = Math.Sqrt((coefsR[k, j] * coefsR[k, j]) + ((coefsIm[k, j] * coefsIm[k, j]))) / Math.Sqrt(scales[j]); //データの正規化
-              
-                    int _fs =( coefsR.GetLength(1) -j) -1;
-                    WR.Add(result[k, j] + ","); //結果の出力
+                    double Average = a1.Average();
+                    data[i] = (a1[i] - Average);  //直流成分除去
+                }
+
+                CWT CWT = new CWT();
+
+
+                CWT.setScale(fs, fmin, fmax, dj, size, sigma, out table, out delta, out scales);  //周波数テーブルセット
+
+
+                CWT.CWTR(data, table, datasize, bitsize, out coefsR);//実部ウェーブレット
+                CWT.ICWR(coefsR, delta, datasize, bitsize, out isignalr);//実部逆ウェーブレット
+                CWT.CWTC(data, table, datasize, bitsize, out coefsIm);//虚部ウェーブレット
+                CWT.ICWTC(coefsIm, delta, datasize, bitsize, out isignali);//虚部逆ウェーブレット
+                double Fa = 0;
+                double[,] result = new double[coefsR.GetLength(0), coefsR.GetLength(1)];
+
+                {
+                    for (int i = 0; i < coefsR.GetLength(0)+1; ++i)
+                    { WR.Add(i + ","); } //結果の出力
 
                 }
-           
                 WR.Add(Environment.NewLine);
-        
+                for (int j = coefsR.GetLength(1) - 1; j > 0; --j)
+                {
+
+                    Fa = 0;
+                    ////////周波数計算
+                    fourier_factor = (4 * Math.PI) / (sigma + Math.Sqrt(2 + sigma * sigma));
+
+                    double f = (scales[j] * fourier_factor);
+
+                    double ff = (1 / f) * fs;
+
+                    WR.Add(ff + ",");
+
+
+                    //ウェーブレット結果出力
+                    for (int k = 0; k < coefsR.GetLength(0); ++k)
+                    {
+                      
+                        result[k, j] = (coefsR[k, j] * coefsR[k, j]) + ((coefsIm[k, j] * coefsIm[k, j])) / Math.Sqrt(scales[j]); //データの正規化
+                      
+                        Fa += result[k, j];
+                      
+                        int _fs = (coefsR.GetLength(1) - j) - 1;
+                       
+                        WR.Add(result[k, j] + ","); //結果の出力
+
+
+                    }
+
+                    WR.Add(Environment.NewLine);
+                    textBox1.AppendText(Fa.ToString("#0.000000") + Environment.NewLine);
+                    }
+
+                for (int i = 0; i < datasize; i++)
+                {
+                    //逆ウェーブレット結果出力
+
+                    double z = (isignalr[i] + isignali[i]) / 0.7784;
+
+
+                    textBox7.AppendText(z.ToString("#0.000000") + Environment.NewLine);
+                }
             }
-
-
-            for (int i = 0; i < datasize; i++)
-            {
-                //逆ウェーブレット結果出力
-
-                double z = (isignalr[i] + isignali[i]) / 0.7784;
-
-                textBox1.AppendText(isignalr[i].ToString("#0.000000") + Environment.NewLine);
-                textBox6.AppendText(isignali[i].ToString("#0.000000") + Environment.NewLine);
-                textBox7.AppendText(z.ToString("#0.000000") + Environment.NewLine);
-            }
-            }
-
         }
-
-   
+        
 
         private void button15_Click(object sender, EventArgs e)
         {
@@ -894,7 +902,7 @@ namespace WindowsFormsApplication1
             {
 
 
-                data[i] = 1 * Math.Sin(4 * (2 * Math.PI / FS) * i) + (2 * Math.Sin(30 * (2 * Math.PI / FS) * i)) + (3 * Math.Sin(1* (2 * Math.PI / FS) * i)) + (2 * Math.Sin(0.5 * (2 * Math.PI / FS) * i));
+                data[i] = (1 * Math.Sin(4 * (2 * Math.PI / FS) * i) )+ (2 * Math.Sin(30 * (2 * Math.PI / FS) * i)) + (3 * Math.Sin(1* (5 * Math.PI / FS) * i)) + (2 * Math.Sin(6 * (2 * Math.PI / FS) * i));
 
                
                 a1.Add(data[i]);
