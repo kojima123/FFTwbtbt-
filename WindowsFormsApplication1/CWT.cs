@@ -22,7 +22,6 @@ namespace WindowsFormsApplication1
 
         public CWT(double fs, double fmin, double fmax, double dj)
         {
-
             this.fs = fs;
             this.fmin = fmin;
             this.fmax = fmax;
@@ -31,7 +30,7 @@ namespace WindowsFormsApplication1
 
         public CWT()
         {
-            // TODO: Complete member initialization
+
         }
 
         public void setScale(double fs, double fmin, double fmax, double dj, int N, double sigma, out double[,] table, out double delta, out double[] scales)
@@ -52,7 +51,7 @@ namespace WindowsFormsApplication1
 
             jMax = (Math.Ceiling(Math.Log(fs * fuc / fmin) / Math.Log(2.0) / dj)),
             J = jMax - jMin + 1;
-            //////マザーウェーブレット計算
+            ///マザーウェーブレットスケールセット  
             for (int j = 0; j < J; ++j)
             {
 
@@ -77,33 +76,27 @@ namespace WindowsFormsApplication1
             scales = s;
 
         }
-        private void setTable(List<double> scales, int N, int Js, double sigma, out double[,] tables, out double delta)
-        {   ///マザーウェーブレットスケールセット
+        private void setTable(List<double> scales, int N, int Js, double omega, out double[,] tables, out double delta)
+        {  //////マザーウェーブレット計算
             int J = Js;
-
-
-            double[] omega = new double[N];
+            double[] expnt = new double[N];
             double[] tmp = new double[N];
-
             double[,] table = new double[J, N];
-
+            double c = 0;
             for (int j = 0; j < J; ++j)
             {
                 // 基本周波数
-                double c = (2 * Math.PI * scales[j] / N);
-
+               c = (2 * Math.PI * scales[j] / N);
+    
                 for (int k = 0; k < N; ++k)
                 {
                     if (k <= N / 2)
-                        omega[k] = c * k;
+                        expnt[k] = c * k;
                     else
-                        omega[k] = c * (k - N);
+                        expnt[k] = c * (k - N);
 
-
-
-                    omega[k] = (-0.5) * ((omega[k] - sigma) * (omega[k] - sigma));
-                    tmp[k] = (Math.Sqrt(2 * Math.PI * c)) * Math.Exp(omega[k]);
-
+                    expnt[k] = (-0.5) * ((expnt[k] - omega) * (expnt[k] - omega));
+                    tmp[k] = Math.Pow(Math.PI, 0.25) * (Math.Sqrt(4 * Math.PI * c)) * Math.Exp(expnt[k]);
 
                     table[j, k] = tmp[k];
                 }
@@ -124,14 +117,11 @@ namespace WindowsFormsApplication1
                 for (int k = 0; k < N; ++k)
                 {
                     sum += table[j, k];
-
                 }
                 C += (sum / Math.Sqrt(_scales[j]));
 
             }
-
             return C;
-
         }
         public void CWTC(double[] data, double[,] table, int size, int bitsize, out double[,] _coefsIm)
         {///虚部ウェーブレット変換
@@ -161,20 +151,15 @@ namespace WindowsFormsApplication1
                     for (int i = 0; i < N; ++i)
                     {
                         coefsIm[i, j] = tmpim[i];
-
                     }
                 }
-
                 _coefsIm = coefsIm;
-
-
             }
         }
         public void ICWTC(double[,] coefsIm, double delta, int size, int bitsize, out double[] _signal)
         {
             int N = size;
             int J = _scales.Count;
-            double C = 0;
             double[] signal = new double[N];
 
             //虚部逆ウェーブレット
@@ -182,11 +167,9 @@ namespace WindowsFormsApplication1
             {
 
                 for (int j = 0; j < J; ++j)
-                {
-                    signal[i] += (coefsIm[i, j]) / Math.Sqrt(_scales[j]);
-
-
-                }
+                    {
+                        signal[i] += (coefsIm[i, j]) / Math.Sqrt(_scales[j]);
+                    }
             }
                 for (int i = 0; i < N; ++i)
                 {
@@ -242,20 +225,16 @@ namespace WindowsFormsApplication1
             int J = _scales.Count;
 
             double[] signal = new double[N];
-            double C = 0;
 
             // 実部ウェーブレット変換
        
                 for (int i = 0; i < N; ++i)
                 {
-
-                    for (int j= 0; j <J; ++j)
+                    for (int j = 0; j < J; ++j)
                     {
                         signal[i] += (coefsR[i, j]) / Math.Sqrt(_scales[j]);
-                     
-                     
+   
                     }
-              
                 }
                 for (int i = 0; i < N; ++i)
                 {
@@ -263,8 +242,6 @@ namespace WindowsFormsApplication1
 
                 } 
             _signal = signal;
-
-
         }
     }
 
